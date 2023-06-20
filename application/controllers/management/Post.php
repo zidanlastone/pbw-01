@@ -21,10 +21,12 @@ class Post extends CI_Controller
 
   public function store()
   {
-    $this->load->library('form_validation');
-    $this->form_validation->set_rules('post', 'post Name', 'required');
-    $this->form_validation->set_rules('type', 'post type', 'required');
-    $this->form_validation->set_rules('description', 'post description', 'required');
+		$this->load->library('form_validation');
+    $this->form_validation->set_rules('category', 'Category', 'required');
+    $this->form_validation->set_rules('title', 'Title', 'required');
+    $this->form_validation->set_rules('content', 'Content', 'required');
+    $this->form_validation->set_rules('publication_date', 'Publication Date', 'required');
+    $this->form_validation->set_rules('tags', 'tags', 'required');
 
     // early validation
     if ($this->form_validation->run() == FALSE)
@@ -33,9 +35,12 @@ class Post extends CI_Controller
     }
 
     $payload = [
-      'type'        => $this->input->post('type'),
-      'post'    => $this->input->post('post'),
-      'description' => $this->input->post('description')
+			'author'           => $this->session->userdata('id'),
+      'category'         => $this->input->post('category'),
+      'title'    				 => $this->input->post('title'),
+      'content' 				 => $this->input->post('content'),
+      'publication_date' => $this->input->post('publication_date'),
+      'tags' 						 => $this->input->post('tags')
     ];
 
     $result = $this->post_model->save($payload);
@@ -57,10 +62,12 @@ class Post extends CI_Controller
 
   public function update($id)
   {
-    $this->load->library('form_validation');
-    $this->form_validation->set_rules('post', 'post Name', 'required');
-    $this->form_validation->set_rules('type', 'post type', 'required');
-    $this->form_validation->set_rules('descriiption', 'post description', 'required');
+		$this->load->library('form_validation');
+    $this->form_validation->set_rules('category', 'Category', 'required');
+    $this->form_validation->set_rules('title', 'Title', 'required');
+    $this->form_validation->set_rules('content', 'Content', 'required');
+    $this->form_validation->set_rules('publication_date', 'Publication Date', 'required');
+    $this->form_validation->set_rules('tags', 'tags', 'required');
 
     // early validation
     if ($this->form_validation->run() == FALSE)
@@ -69,10 +76,12 @@ class Post extends CI_Controller
     }
 
     $payload = [
-      'type'        => $this->input->post('type'),
-      'post'    => $this->input->post('post'),
-      'description' => $this->input->post('description'),
-      'updated_at'  => date()
+			'author'           => $this->session->userdata('id'),
+      'category'         => $this->input->post('category'),
+      'title'    				 => $this->input->post('title'),
+      'content' 				 => $this->input->post('content'),
+      'publication_date' => $this->input->post('publication_date'),
+      'tags' 						 => $this->input->post('tags')
     ];
 
     $result = $this->post_model->update($payload, ['id' => $id]);
