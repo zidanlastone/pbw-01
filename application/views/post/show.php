@@ -12,6 +12,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap"
     rel="stylesheet">
 
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/quilljs-markdown@latest/dist/quilljs-markdown-common-style.css" />
+
   <style>
     body {
       /* font-family: 'Roboto', sans-serif !important;  */
@@ -162,19 +166,18 @@
 
         <section class="col-md-9 col-sm-12" style="max-height: 90vh; overflow-y: scroll; scrollbar-width: none;">
           <h2>Artikel</h2>
-          <?php foreach($posts as $key => $item):?>
-          <div class="card border-top-0 border-end-0 border-start-0 mb-2 shadow-sm card-cursor"
-            data-linktarget="<?=  base_url('post/read/'.$item->id) ?>">
+          <?php if(isset($post)): ?>
+          <div class="card border-top-0 border-end-0 border-start-0 mb-2 shadow-sm">
             <div class="card-body">
 
               <div class="d-flex flex-row">
                 <div class="mt-3">
                   <p class="lh-1">
                     <span class="fs-7">
-                      <?= $item->name ?>
+                      <?= $post->author->name  ?>
                     </span><br>
                     <span class="fs-9">
-                      <?= date($item->publication_date) ?>
+                      <?= date($post->publication_date)  ?>
                     </span>
                   </p>
                 </div>
@@ -194,40 +197,47 @@
               </div>
 
               <h3>
-                <?= $item->title ?>
+                <?= $post->title  ?>
               </h3>
-              <h4>
-                Kategori:
-                <?= $item->category ?>
-              </h4>
               <p>
-                <?= $this->markdown->transform(substr_replace($item->content, '...', 200)) ?>
+                <?= $post->content ?>
               </p>
+
+              <!-- TODO read tags -->
               <p>
-                <?php $tags = explode(',', $item->tags); ?>
-                <?php foreach($tags as $x):?>
-                <span>
-                  <?= $x ?>
-                </span>
-                <?php endforeach?>
+                <span>#bootstrap</span>
+                <span>#bootstrap</span>
+                <span>#bootstrap</span>
+                <span>#bootstrap</span>
               </p>
 
               <div class="d-flex gap-3">
                 <span>UP (10) </span>
                 <span>Down</span>
                 <span>|</span>
-                <span>Comment</span>
               </div>
+
+              <hr>
+
+              <!-- Todo read comments -->
+              <form action="" method="post">
+                <div id="comment-editor"></div>
+                <input class="form-control d-none" name="comment" id="comment-input" cols="30" rows="3" />
+                <button class="btn btn-secondary my-2" type="submit">Submit</button>
+              </form>
+
             </div>
           </div>
-          <?php endforeach ?>
+          <?php endif ?>
         </section>
 
       </div>
     </div>
 
   </main>
-
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/quilljs-markdown@latest/dist/quilljs-markdown.js"></script>
+  <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
   <script type="text/javascript">
 
     // dark mode support
@@ -240,16 +250,21 @@
 
     // for reducing document load. copy the dom to menu
     function loadOffcanvasNav() {
+
+      // navbar
       let copy = document.getElementById('main-side-nav').innerHTML
       document.getElementById('offcanvas-nav').innerHTML = copy;
 
-      let cards = document.getElementsByClassName('card-cursor')
-      Array.from(cards).forEach(element => {
-        element.style.cursor = element.dataset.linktarget
-        element.addEventListener('click', function () {
-          window.location = element.dataset.linktarget
-        })
-      });
+
+      // editor
+      var turndownService = new TurndownService({ option: 'value' })
+      let quill = new Quill('#comment-editor', { theme: 'snow' });
+      const quillMarkdown = new QuillMarkdown(quill, {})
+      let input = document.getElementById('comment-input');
+
+      quill.on('text-change', function () {
+        input.value = turndownService.turndown(quill.container.firstChild.innerHTML);
+      })
     }
 
     if (document.readyState == "loading")

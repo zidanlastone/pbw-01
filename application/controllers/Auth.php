@@ -31,6 +31,7 @@ class Auth extends CI_Controller
     }
 
     $payload = [
+      'id'       => $user->id,
       'email'    => $user->email,
       'name'     => $user->name,
       'username' => $user->username
@@ -56,6 +57,7 @@ class Auth extends CI_Controller
 
     // continue the process
     $password = $this->input->post('password');
+    $email    = $this->input->post('email');
 
     $payload = [
       'email'    => $this->input->post('email'),
@@ -71,9 +73,16 @@ class Auth extends CI_Controller
       redirect('auth');
     }
 
-    unset($payload['password']); // unset password from session
+    $user = $this->user_model->show(['email' => $email])->row();
+    
+    $session = [
+      'id'       => $user->id,
+      'email'    => $user->email,
+      'name'     => $user->name,
+      'username' => $user->username
+    ];
 
-    $this->session->set_userdata($payload);
+    $this->session->set_userdata($session);
 
     redirect('user/profile');
   }
