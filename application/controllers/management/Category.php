@@ -60,7 +60,7 @@ class Category extends CI_Controller
     $this->load->library('form_validation');
     $this->form_validation->set_rules('category', 'Category Name', 'required');
     $this->form_validation->set_rules('type', 'Category type', 'required');
-    $this->form_validation->set_rules('descriiption', 'Category description', 'required');
+    $this->form_validation->set_rules('description', 'Category description', 'required');
 
     // early validation
     if ($this->form_validation->run() == FALSE)
@@ -74,6 +74,8 @@ class Category extends CI_Controller
       'description' => $this->input->post('description'),
       'updated_at'  => date()
     ];
+
+    
 
     $result = $this->category_model->update($payload, ['id' => $id]);
 

@@ -136,21 +136,21 @@
           <hr>
 
           <div id="login-tab" class="d-block">
-            <?= form_open($mode == 'edit' ?  'management/category/update' : 'management/category/store', 'class=""my-3"') ?>
+            <?= form_open($mode == 'edit' && isset($item) ? 'management/category/update/' . $item->id  : 'management/category/store', 'class=""my-3"') ?>
             <div class="form-group mb-3">
-              <input class="form-control" placeholder="Masukan nama kategori" type="text" name="category">
+              <input class="form-control" placeholder="Masukan nama kategori" type="text" name="category" value="<?=  $mode == 'edit' && isset($item) ? $item->category : ''  ?>">
             </div>
             <div class="form-group mb-3">
               <select class="form-control" name="type" aria-placeholder="Pilih tipe kategori"
                 placeholder="Pilih tipe kategori">
-                <option value="article">Artikel</option>
-                <option value="general">Umum</option>
-                <option value="education">Edukasi</option>
+                <option value="article" <?= $mode == 'edit' && isset($item) && $item->type == "article" ? "selected" : "" ?>>Artikel</option>
+                <option value="general" <?= $mode == 'edit' && isset($item) && $item->type == "general" ? "selected" : "" ?>>Umum</option>
+                <option value="education" <?= $mode == 'edit' && isset($item) && $item->type == "education" ? "selected" : "" ?>>Edukasi</option>
               </select>
             </div>
             <div class="form-group mb-3">
               <textarea class="form-control" placeholder="Masukan deskripsi kategori" type="text"
-                name="description"></textarea>
+                name="description"><?= $mode == 'edit' && isset($item) &&  $item->category ? $item->category : ''  ?></textarea>
             </div>
 
             <button class="btn btn-secondary form-control" type="submit">Submit</button>

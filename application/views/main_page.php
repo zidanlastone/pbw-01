@@ -162,6 +162,9 @@
 
         <section class="col-md-9 col-sm-12" style="max-height: 90vh; overflow-y: scroll; scrollbar-width: none;">
           <h2>Artikel</h2>
+
+          <a href="<?= base_url('post/create') ?>" class="btn btn-sm btn-outline-secondary my-2">+ Buat Artikel</a>
+           
           <?php foreach($posts as $key => $item):?>
           <div class="card border-top-0 border-end-0 border-start-0 mb-2 shadow-sm card-cursor"
             data-linktarget="<?=  base_url('post/read/'.$item->id) ?>">
@@ -206,9 +209,12 @@
               <p>
                 <?php $tags = explode(',', $item->tags); ?>
                 <?php foreach($tags as $x):?>
-                <span>
-                  <?= $x ?>
-                </span>
+
+                <a href="<?= base_url('tags/'.$x) ?>">
+                  <span>
+                    <?= $x ?>
+                  </span>
+                </a>
                 <?php endforeach?>
               </p>
 
