@@ -1,15 +1,25 @@
 <?php
 
-class User extends CI_Controller 
+class User extends CI_Controller
 {
-  public function __construct(){
+  public function __construct()
+  {
     parent::__construct();
     $this->load->model('UserModel', 'user_model');
   }
 
+  protected function layout($view, $data)
+  {
+    $data['view'] = $view;
+    $data['navbar'] = $this->load->view('layout/navbars/authenticated', [], true);
+    // $data['categories'] = $this->category_model->list();
+    // $data['content'] = $this->load->view($view, $data, true);
+    return $this->load->view('layout/clean', $data);
+  }
+
   public function profile()
   {
-    redirect('/');
+    $this->layout('user', []);
   }
 
   public function index()
@@ -20,7 +30,7 @@ class User extends CI_Controller
 
   public function create()
   {
-        
+
   }
 
   public function store()
@@ -48,4 +58,3 @@ class User extends CI_Controller
 
   }
 }
-

@@ -9,6 +9,7 @@ interface PostInterface
 	public function store();
 	public function edit($id);
 	public function update($id);
+	public function delete($id);
 }
 
 class Post extends CI_Controller implements PostInterface
@@ -23,10 +24,10 @@ class Post extends CI_Controller implements PostInterface
 		$this->load->helper('debug_helper');
 	}
 
-	private function checkSession()
+	private function checkSession($target = '/')
 	{
 		if (!$this->session->userdata('id')) {
-			redirect('/');
+			redirect($target);
 		}
 	}
 
@@ -62,7 +63,7 @@ class Post extends CI_Controller implements PostInterface
 
 	public function create()
 	{
-		$this->checkSession();
+		$this->checkSession('auth');
 		$data['mode'] = 'create';
 		$this->layout('post/form', $data);
 	}
@@ -139,6 +140,14 @@ class Post extends CI_Controller implements PostInterface
 		}
 
 		redirect('/');
+	}
+
+	public function delete($id)
+	{
+		if (isset($_POST['_delete'])) {
+			$this->post_model->delete(['id' => $id]);
+			redirect('/');
+		}
 	}
 
 }
