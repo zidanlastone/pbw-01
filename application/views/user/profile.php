@@ -20,12 +20,29 @@
     <div class="card">
       <div class="card-body">
         <h4>User Profile</h4>
-        <p>Nama:
-          <?= $item->name ?>
-        </p>
-        <p>Username:
-          <?= $item->username ?>
-        </p>
+        <table>
+          <tr>
+            <td>Nama</td>
+            <td>
+              :
+              <?= $item->name ?>
+            </td>
+          </tr>
+          <tr>
+            <td>Username</td>
+            <td>
+              :
+              <?= $item->username ?>
+            </td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td>
+              :
+              <?= $item->email ?>
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>
