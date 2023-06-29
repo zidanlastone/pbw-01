@@ -112,7 +112,7 @@ class User extends CI_Controller
   public function delete($id)
   {
     $result = $this->user_model->delete(['id' => $id]);
-    redirect('management/post');
+    redirect('management/user');
   }
 
   public function show($id)
