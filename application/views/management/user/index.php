@@ -121,7 +121,7 @@
               </li>
               <li class="list-group-item">
                 <a href="<?= base_url('management/comments') ?>"
-                class="text-decoration-none link-secondary">Komentar</a>
+                  class="text-decoration-none link-secondary">Komentar</a>
               </li>
               <li class="list-group-item">
                 <a href="<?= base_url('management/user') ?>" class="text-decoration-none link-secondary">Pengguna</a>
@@ -134,7 +134,7 @@
           <h2>Pengguna</h2>
           <hr>
 
-          <a href="<?= base_url('management/category/create') ?>" class="btn btn-secondary">+ Buat Kategori Baru</a>
+          <a href="<?= base_url('management/user/create') ?>" class="btn btn-secondary">+ Buat Pengguna Baru</a>
           <div class="table-responsive">
             <table class="table">
               <thead>
@@ -148,39 +148,39 @@
                 </tr>
               </thead>
               <tbody>
-                <?php foreach($list as $key => $item): ?>
-                <tr>
-                  <td>
-                    <?= $key+1 ?>
-                  </td>
-                  <td>
-                    <?= $item->name ?>
-                  </td>
-                  <td>
-                    <?= $item->username ?>
-                  </td>
-                  <td>
-                    <?= $item->email ?>
-                  </td>
-                  <td>
-                    <?= date($item->created_at) ?>
-                  </td>
-                  <td>
-                    <div class="d-flex flex-row gap-2">
-                      <a href="<?= base_url('management/user/edit/'. $item->id) ?>" class="btn btn-warning">edit</a>
-                      <!-- Form Delete -->
-                      <?= form_open('management/user/delete/'.$item->id, 'id="del-user-'.$item->id.'"' ) ?>
-                      <button class="btn btn-danger"
-                        type="button" onclick="deleteCategory(this.form, <?= $item->id ?>)">delete</button>
-                      </form>
-                    </div>
-  
-                  </td>
-  
-                </tr>
+                <?php foreach ($list as $key => $item): ?>
+                  <tr>
+                    <td>
+                      <?= $key + 1 ?>
+                    </td>
+                    <td>
+                      <?= $item->name ?>
+                    </td>
+                    <td>
+                      <?= $item->username ?>
+                    </td>
+                    <td>
+                      <?= $item->email ?>
+                    </td>
+                    <td>
+                      <?= date($item->created_at) ?>
+                    </td>
+                    <td>
+                      <div class="d-flex flex-row gap-2">
+                        <a href="<?= base_url('management/user/edit/' . $item->id) ?>" class="btn btn-warning">edit</a>
+                        <!-- Form Delete -->
+                        <?= form_open('management/user/delete/' . $item->id, 'id="del-user-' . $item->id . '"') ?>
+                        <button class="btn btn-danger" type="button"
+                          onclick="deleteCategory(this.form, <?= $item->id ?>)">delete</button>
+                        </form>
+                      </div>
+
+                    </td>
+
+                  </tr>
                 <?php endforeach ?>
               </tbody>
-  
+
             </table>
           </div>
 
