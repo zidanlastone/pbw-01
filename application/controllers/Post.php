@@ -31,9 +31,19 @@ class Post extends CI_Controller implements PostInterface
 		}
 	}
 
+	private function checkNavbar()
+	{
+		$navbar = 'unauthenticated';
+		if ($this->session->userdata('id')) {
+			$navbar = 'authenticated';
+		}
+		return $this->load->view('layout/navbars/' . $navbar, [], true);
+	}
+
 	protected function layout($view, $data)
 	{
 		$data['view'] = $view;
+		$data['navbar'] = $this->checkNavbar();
 		$data['categories'] = $this->category_model->list();
 		$data['content'] = $this->load->view($view, $data, true);
 		return $this->load->view('layout/main', $data);

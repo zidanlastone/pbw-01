@@ -2,7 +2,8 @@
 
 class Category extends CI_Controller
 {
-  public function __construct(){
+  public function __construct()
+  {
     parent::__construct();
     $this->load->model('CategoryModel', 'category_model');
   }
@@ -27,21 +28,19 @@ class Category extends CI_Controller
     $this->form_validation->set_rules('description', 'Category description', 'required');
 
     // early validation
-    if ($this->form_validation->run() == FALSE)
-    {
+    if ($this->form_validation->run() == FALSE) {
       redirect('management/category');
     }
 
     $payload = [
-      'type'        => $this->input->post('type'),
-      'category'    => $this->input->post('category'),
+      'type' => $this->input->post('type'),
+      'category' => $this->input->post('category'),
       'description' => $this->input->post('description')
     ];
 
     $result = $this->category_model->save($payload);
 
-    if(!$result)
-    {
+    if (!$result) {
       redirect('management/category');
     }
 
@@ -63,24 +62,22 @@ class Category extends CI_Controller
     $this->form_validation->set_rules('description', 'Category description', 'required');
 
     // early validation
-    if ($this->form_validation->run() == FALSE)
-    {
+    if ($this->form_validation->run() == FALSE) {
       redirect('management/category');
     }
 
     $payload = [
-      'type'        => $this->input->post('type'),
-      'category'    => $this->input->post('category'),
+      'type' => $this->input->post('type'),
+      'category' => $this->input->post('category'),
       'description' => $this->input->post('description'),
-      'updated_at'  => date()
+      'updated_at' => date()
     ];
 
-    
+
 
     $result = $this->category_model->update($payload, ['id' => $id]);
 
-    if(!$result)
-    {
+    if (!$result) {
       redirect('management/category');
     }
 
