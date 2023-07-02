@@ -2,7 +2,7 @@
   <h1 class="h2">Data Kategori</h1>
 </div>
 <section class="col-md-10 col-sm-12">
-  <h2>Category</h2>
+  <h4>Kategory</h4>
   <hr>
 
   <div id="login-tab" class="d-block">
