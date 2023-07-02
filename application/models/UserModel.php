@@ -1,11 +1,12 @@
 <?php
 
-class UserModel extends MY_Model {
+class UserModel extends MY_Model
+{
 
   function __construct()
   {
     parent::__construct();
-    $this->setTable('user');
+    $this->setTable('tb_user');
   }
 
   public function checkPassword($password, $emailOrUsername)
@@ -14,8 +15,7 @@ class UserModel extends MY_Model {
     $this->db->where('email', $emailOrUsername)->or_where('username', $emailOrUsername);
     $user = $this->db->get($this->table)->row();
 
-    if(!password_verify($password, $user->password))
-    {
+    if (!password_verify($password, $user->password)) {
       return false;
     }
 

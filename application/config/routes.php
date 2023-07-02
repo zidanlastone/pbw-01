@@ -53,3 +53,4 @@ $route['default_controller'] = 'post';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['management'] = 'management/management';
+$route['management/tarif-listrik'] = 'management/tariflistrik';

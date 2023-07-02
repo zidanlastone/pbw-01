@@ -2,9 +2,19 @@
 
 class Post extends CI_Controller
 {
-  public function __construct(){
+  public function __construct()
+  {
     parent::__construct();
     $this->load->model('PostModel', 'post_model');
+    $this->checkSession('id', '/auth');
+  }
+
+  private function checkSession($userdata, $target = '/')
+  {
+    if (!$this->session->userdata('id')) {
+      redirect($target);
+    }
+    return $this->session->userdata($userdata);
   }
 
   public function index()
@@ -21,7 +31,7 @@ class Post extends CI_Controller
 
   public function store()
   {
-		$this->load->library('form_validation');
+    $this->load->library('form_validation');
     $this->form_validation->set_rules('category', 'Category', 'required');
     $this->form_validation->set_rules('title', 'Title', 'required');
     $this->form_validation->set_rules('content', 'Content', 'required');
@@ -29,24 +39,22 @@ class Post extends CI_Controller
     $this->form_validation->set_rules('tags', 'tags', 'required');
 
     // early validation
-    if ($this->form_validation->run() == FALSE)
-    {
+    if ($this->form_validation->run() == FALSE) {
       redirect('management/post');
     }
 
     $payload = [
-			'author'           => $this->session->userdata('id'),
-      'category'         => $this->input->post('category'),
-      'title'    				 => $this->input->post('title'),
-      'content' 				 => $this->input->post('content'),
+      'author' => $this->session->userdata('id'),
+      'category' => $this->input->post('category'),
+      'title' => $this->input->post('title'),
+      'content' => $this->input->post('content'),
       'publication_date' => $this->input->post('publication_date'),
-      'tags' 						 => $this->input->post('tags')
+      'tags' => $this->input->post('tags')
     ];
 
     $result = $this->post_model->save($payload);
 
-    if(!$result)
-    {
+    if (!$result) {
       redirect('management/post');
     }
 
@@ -62,7 +70,7 @@ class Post extends CI_Controller
 
   public function update($id)
   {
-		$this->load->library('form_validation');
+    $this->load->library('form_validation');
     $this->form_validation->set_rules('category', 'Category', 'required');
     $this->form_validation->set_rules('title', 'Title', 'required');
     $this->form_validation->set_rules('content', 'Content', 'required');
@@ -70,24 +78,22 @@ class Post extends CI_Controller
     $this->form_validation->set_rules('tags', 'tags', 'required');
 
     // early validation
-    if ($this->form_validation->run() == FALSE)
-    {
+    if ($this->form_validation->run() == FALSE) {
       redirect('management/post');
     }
 
     $payload = [
-			'author'           => $this->session->userdata('id'),
-      'category'         => $this->input->post('category'),
-      'title'    				 => $this->input->post('title'),
-      'content' 				 => $this->input->post('content'),
+      'author' => $this->session->userdata('id'),
+      'category' => $this->input->post('category'),
+      'title' => $this->input->post('title'),
+      'content' => $this->input->post('content'),
       'publication_date' => $this->input->post('publication_date'),
-      'tags' 						 => $this->input->post('tags')
+      'tags' => $this->input->post('tags')
     ];
 
     $result = $this->post_model->update($payload, ['id' => $id]);
 
-    if(!$result)
-    {
+    if (!$result) {
       redirect('management/post');
     }
 
