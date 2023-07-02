@@ -447,6 +447,12 @@
       </div>
 
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <?php if ($this->session->flashdata('errors') != null): ?>
+          <ul class="list-group my-2">
+            <?= $this->session->flashdata('errors') ?>
+          </ul>
+        <?php endif ?>
+
         <?= $content ?>
       </main>
     </div>

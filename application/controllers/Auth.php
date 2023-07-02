@@ -24,6 +24,12 @@ class Auth extends CI_Controller
     $this->form_validation->set_rules('username', 'username', 'required');
     $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]');
 
+    if ($this->form_validation->run() == FALSE) {
+      $errors = validation_errors('<li class="list-group-item list-group-item-danger alert alert-danger" role="alert">', '</li>');
+      $this->session->set_flashdata('errors', $errors);
+      redirect('auth');
+    }
+
     $username = $this->input->post('username');
     $password = $this->input->post('password');
 
@@ -55,6 +61,8 @@ class Auth extends CI_Controller
 
     // early validation
     if ($this->form_validation->run() == FALSE) {
+      $errors = validation_errors('<li class="list-group-item list-group-item-danger alert alert-danger" role="alert">', '</li>');
+      $this->session->set_flashdata('errors', $errors);
       redirect('auth');
     }
 

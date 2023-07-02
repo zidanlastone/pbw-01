@@ -51,6 +51,8 @@ class Pelanggan extends MY_AdminController
     $this->form_validation->set_rules($this->validationRules());
 
     if ($this->form_validation->run() == FALSE) {
+      $errors = validation_errors('<li class="list-group-item list-group-item-danger alert alert-danger" role="alert">', '</li>');
+      $this->session->set_flashdata('errors', $errors);
       redirect('management/pelanggan');
     }
 
@@ -79,6 +81,8 @@ class Pelanggan extends MY_AdminController
     $this->form_validation->set_rules($this->validationRules());
 
     if ($this->form_validation->run() == FALSE) {
+      $errors = validation_errors('<li class="list-group-item list-group-item-danger alert alert-danger" role="alert">', '</li>');
+      $this->session->set_flashdata('errors', $errors);
       redirect('management/pelanggan');
     }
 

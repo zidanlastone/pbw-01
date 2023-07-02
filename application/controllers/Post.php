@@ -89,6 +89,8 @@ class Post extends CI_Controller implements PostInterface
 
 		// early validation
 		if ($this->form_validation->run() == FALSE) {
+			$errors = validation_errors('<li class="list-group-item list-group-item-danger alert alert-danger" role="alert">', '</li>');
+			$this->session->set_flashdata('errors', $errors);
 			redirect('post/create');
 		}
 
@@ -130,6 +132,8 @@ class Post extends CI_Controller implements PostInterface
 
 		// early validation
 		if ($this->form_validation->run() == FALSE) {
+			$errors = validation_errors('<li class="list-group-item list-group-item-danger alert alert-danger" role="alert">', '</li>');
+			$this->session->set_flashdata('errors', $errors);
 			redirect('post/edit');
 		}
 
