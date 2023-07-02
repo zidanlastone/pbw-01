@@ -11,6 +11,7 @@
         <th>No</th>
         <th>Pelanggan ID</th>
         <th>Nama Pelanggan</th>
+        <th>Alamat</th>
         <th>Kode Tarif</th>
         <th>Beban</th>
         <th>Tarif Perkwh</th>

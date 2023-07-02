@@ -22,7 +22,6 @@ class PelangganObject
 
 class PelangganModel extends MY_Model
 {
-
   function __construct()
   {
     parent::__construct();
@@ -37,7 +36,7 @@ class PelangganModel extends MY_Model
   public function listPelangganWithTarif()
   {
     $this->db->join('tb_tarif_listrik', 'tb_tarif_listrik.id = tb_pelanggan.tarif_listrik_id');
-    $this->db->select('tb_pelanggan.*, tb_tarif_listrik.kd_tarif, tb_tarif_listrik.beban,  tb_tarif_listrik.tarif_perkwh');
+    $this->db->select('tb_pelanggan.*, tb_pelanggan.id, tb_tarif_listrik.kd_tarif, tb_tarif_listrik.beban,  tb_tarif_listrik.tarif_perkwh');
     return $this->db->get($this->table)->result();
   }
 

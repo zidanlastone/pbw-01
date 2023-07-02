@@ -1,42 +1,27 @@
 <?php
 
-class TarifListrik extends CI_Controller
+class TarifListrik extends MY_AdminController
 {
   public function __construct()
   {
     parent::__construct();
     $this->load->model('TarifListrikModel', 'tl_model');
-    $this->load->helper('debug');
 
     $this->checkSession('id', '/auth');
   }
 
-  private function checkSession($userdata, $target = '/')
+  protected function createPayload($input)
   {
-    if (!$this->session->userdata('id')) {
-      redirect($target);
-    }
-    return $this->session->userdata($userdata);
+    $post = (object) $input; // converting array to object
+    $payload = $this->tl_model->createObject();
+    $payload->beban = $post->beban;
+    $payload->user_id = $this->checkSession('id');
+    $payload->kd_tarif = $post->kd_tarif;
+    $payload->tarif_perkwh = $post->tarif_perkwh;
+    return $payload;
   }
 
-  private function checkNavbar()
-  {
-    $navbar = 'unauthenticated';
-    if ($this->session->userdata('id')) {
-      $navbar = 'authenticated';
-    }
-    return $this->load->view('layout/navbars/' . $navbar, [], true);
-  }
-
-  private function layout($view, $data)
-  {
-    $data['view'] = $view;
-    $data['navbar'] = $this->checkNavbar();
-    $data['content'] = $this->load->view($view, $data, true);
-    return $this->load->view('layout/management', $data);
-  }
-
-  private function validationRules($validation = [])
+  protected function validationRules($validation = [])
   {
     $default = [
       ['field' => 'kd_tarif', 'label' => 'Kode Tarif', 'rules' => 'required'],
@@ -67,11 +52,7 @@ class TarifListrik extends CI_Controller
       redirect('management/tarif-listrik');
     }
 
-    $payload = $this->tl_model->createObject();
-    $payload->beban = $this->input->post('beban');
-    $payload->user_id = $this->checkSession('id');
-    $payload->kd_tarif = $this->input->post('kd_tarif');
-    $payload->tarif_perkwh = $this->input->post('tarif_perkwh');
+    $payload = $this->createPayload($this->input->post());
 
     $result = $this->tl_model->save($payload);
 
@@ -99,12 +80,7 @@ class TarifListrik extends CI_Controller
       redirect('management/tarif-listrik');
     }
 
-    $payload = $this->tl_model->createObject();
-
-    $payload->beban = $this->input->post('beban');
-    $payload->user_id = $this->checkSession('id');
-    $payload->kd_tarif = $this->input->post('kd_tarif');
-    $payload->tarif_perkwh = $this->input->post('tarif_perkwh');
+    $payload = $this->createPayload($this->input->post());
 
     $result = $this->tl_model->update($payload, ['id' => $id]);
     // early check

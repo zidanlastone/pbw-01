@@ -1,6 +1,6 @@
 <?php
 
-class Category extends CI_Controller
+class Category extends MY_AdminController
 {
   public function __construct()
   {
@@ -8,35 +8,50 @@ class Category extends CI_Controller
     $this->load->model('CategoryModel', 'category_model');
   }
 
+  protected function createPayload($input)
+  {
+    $post = (object) $input; // converting array to object
+    $payload = $this->category_model->createObject();
+    $payload->category = $post->category;
+    $payload->type = $post->type;
+    $payload->description = $post->description;
+    return $payload;
+  }
+
+  protected function validationRules($validation = [])
+  {
+    $default = [
+      ['field' => 'category', 'label' => 'Category', 'rules' => 'required'],
+      ['field' => 'type', 'label' => 'Category Type', 'rules' => 'required'],
+      ['field' => 'description', 'label' => 'Content', 'rules' => 'required'],
+    ];
+
+    return array_merge($validation, $default);
+  }
+
   public function index()
   {
     $data['list'] = $this->category_model->list();
-    $this->load->view('management/category/index.php', $data);
+    $this->layout('management/category/index', $data);
   }
 
   public function create()
   {
     $data['mode'] = 'create';
-    $this->load->view('management/category/form.php', $data);
+    $this->layout('management/category/form', $data);
   }
 
   public function store()
   {
     $this->load->library('form_validation');
-    $this->form_validation->set_rules('category', 'Category Name', 'required');
-    $this->form_validation->set_rules('type', 'Category type', 'required');
-    $this->form_validation->set_rules('description', 'Category description', 'required');
+    $this->form_validation->set_rules($this->validationRules());
 
     // early validation
     if ($this->form_validation->run() == FALSE) {
       redirect('management/category');
     }
 
-    $payload = [
-      'type' => $this->input->post('type'),
-      'category' => $this->input->post('category'),
-      'description' => $this->input->post('description')
-    ];
+    $payload = $this->createPayload($this->input->post());
 
     $result = $this->category_model->save($payload);
 
@@ -51,29 +66,20 @@ class Category extends CI_Controller
   {
     $data['mode'] = 'edit';
     $data['item'] = $this->category_model->show(['id' => $id])->row();
-    $this->load->view('management/category/form.php', $data);
+    $this->layout('management/category/form', $data);
   }
 
   public function update($id)
   {
     $this->load->library('form_validation');
-    $this->form_validation->set_rules('category', 'Category Name', 'required');
-    $this->form_validation->set_rules('type', 'Category type', 'required');
-    $this->form_validation->set_rules('description', 'Category description', 'required');
+    $this->form_validation->set_rules($this->validationRules());
 
     // early validation
     if ($this->form_validation->run() == FALSE) {
       redirect('management/category');
     }
 
-    $payload = [
-      'type' => $this->input->post('type'),
-      'category' => $this->input->post('category'),
-      'description' => $this->input->post('description'),
-      'updated_at' => date()
-    ];
-
-
+    $payload = $this->createPayload($this->input->post());
 
     $result = $this->category_model->update($payload, ['id' => $id]);
 
@@ -94,6 +100,6 @@ class Category extends CI_Controller
   {
     $data['mode'] = 'show';
     $data['item'] = $this->category_model->show(['id' => $id])->row();
-    $this->load->view('management/category/form.php', $data);
+    $this->layout('management/category/form', $data);
   }
 }

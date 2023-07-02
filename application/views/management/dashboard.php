@@ -144,3 +144,55 @@
     </tbody>
   </table>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"
+  integrity="sha384-gdQErvCNWvHQZj6XZM0dNsAoY4v+j5P1XDpNkcM3HJG1Yx04ecqIHk7+4VBOCHOG" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  (() => {
+    'use strict'
+    // Graphs
+    const ctx = document.getElementById('myChart')
+    // eslint-disable-next-line no-unused-vars
+    const myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [
+          'Sunday',
+          'Monday',
+          'Tuesday',
+          'Wednesday',
+          'Thursday',
+          'Friday',
+          'Saturday'
+        ],
+        datasets: [{
+          data: [
+            15339,
+            21345,
+            18483,
+            24003,
+            23489,
+            24092,
+            12034
+          ],
+          lineTension: 0,
+          backgroundColor: 'transparent',
+          borderColor: '#007bff',
+          borderWidth: 4,
+          pointBackgroundColor: '#007bff'
+        }]
+      },
+      options: {
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            boxPadding: 3
+          }
+        }
+      }
+    })
+  })()
+</script>

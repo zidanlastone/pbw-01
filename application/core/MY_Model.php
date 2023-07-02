@@ -1,9 +1,9 @@
 <?php
 
-class MY_Model extends CI_Model
+abstract class MY_Model extends CI_Model
 {
   public $table;
-  
+
   function __construct()
   {
     parent::__construct();
@@ -14,8 +14,10 @@ class MY_Model extends CI_Model
     $this->table = $table_name;
   }
 
-  private function checkTable(){
-    if(!$this->table) throw new Error("Table not set");
+  private function checkTable()
+  {
+    if (!$this->table)
+      throw new Error("Table not set");
   }
 
   public function save($payload)
@@ -47,4 +49,5 @@ class MY_Model extends CI_Model
     return $this->db->get_where($this->table, $where);
   }
 
+  abstract public function createObject();
 }

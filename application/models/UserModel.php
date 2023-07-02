@@ -1,8 +1,16 @@
 <?php
 
+class UserObject
+{
+  public $name;
+  public $username;
+  public $email;
+  public $password;
+  public $hak_akses = 0;
+}
+
 class UserModel extends MY_Model
 {
-
   function __construct()
   {
     parent::__construct();
@@ -20,5 +28,10 @@ class UserModel extends MY_Model
     }
 
     return $user;
+  }
+
+  public function createObject()
+  {
+    return new UserObject();
   }
 }

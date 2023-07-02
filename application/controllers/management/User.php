@@ -1,42 +1,40 @@
 <?php
 
-class User extends CI_Controller
+class User extends MY_AdminController
 {
   public function __construct()
   {
     parent::__construct();
     $this->load->model('UserModel', 'user_model');
-    $this->load->helper('debug');
   }
 
-  private function checkSession($target = '/')
+  protected function validationRules($validation = [])
   {
-    if (!$this->session->userdata('id')) {
-      redirect($target);
-    }
+    $default = [
+      ['field' => 'name', 'label' => 'Name', 'rules' => 'required'],
+      ['field' => 'username', 'label' => 'Username', 'rules' => 'required'],
+      ['field' => 'email', 'label' => 'Email', 'rules' => 'required'],
+      ['field' => 'password', 'label' => 'Password', 'rules' => 'trim|required|min_length[8]'],
+      ['field' => 'password_confirmation', 'label' => 'Password Confirmation', 'rules' => 'trim|required|matches[password]'],
+    ];
+    return array_merge($validation, $default);
   }
 
-  private function checkNavbar()
+  protected function createPayload($input)
   {
-    $navbar = 'unauthenticated';
-    if ($this->session->userdata('id')) {
-      $navbar = 'authenticated';
-    }
-    return $this->load->view('layout/navbars/' . $navbar, [], true);
-  }
-
-  protected function layout($view, $data)
-  {
-    $data['view'] = $view;
-    $data['navbar'] = $this->checkNavbar();
-    $data['content'] = $this->load->view($view, $data, true);
-    return $this->load->view('layout/clean', $data);
+    $post = (object) $input; // converting array to object
+    $payload = $this->user_model->createObject();
+    $payload->name = $post->name;
+    $payload->username = $post->username;
+    $payload->email = $post->email;
+    $payload->password = password_hash($post->password, PASSWORD_BCRYPT);
+    return $payload;
   }
 
   public function index()
   {
     $data['list'] = $this->user_model->list();
-    $this->load->view('management/user/index.php', $data);
+    $this->layout('management/user/index', $data);
   }
 
   public function create()
@@ -48,21 +46,13 @@ class User extends CI_Controller
   public function store()
   {
     $this->load->library('form_validation');
-    $this->form_validation->set_rules('name', 'Name', 'required');
-    $this->form_validation->set_rules('username', 'username', 'required');
-    $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
-    $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]');
-    $this->form_validation->set_rules('password_confirmation', 'Password Confirmation', 'trim|required|matches[password]');
+    $this->form_validation->set_rules($this->validationRules());
 
-    // continue the process
-    $password = $this->input->post('password');
+    if ($this->form_validation->run() == FALSE) {
+      redirect('management/user');
+    }
 
-    $payload = [
-      'email' => $this->input->post('email'),
-      'name' => $this->input->post('name'),
-      'username' => $this->input->post('username'),
-      'password' => password_hash($password, PASSWORD_BCRYPT)
-    ];
+    $payload = $this->createPayload($this->input->post());
 
     $result = $this->user_model->save($payload);
     // early check
@@ -83,22 +73,15 @@ class User extends CI_Controller
   public function update()
   {
     $this->load->library('form_validation');
-    $this->form_validation->set_rules('name', 'Name', 'required');
-    $this->form_validation->set_rules('username', 'username', 'required');
-    $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
-    $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]');
-    $this->form_validation->set_rules('password_confirmation', 'Password Confirmation', 'trim|required|matches[password]');
+    $this->form_validation->set_rules($this->validationRules());
+
+    if ($this->form_validation->run() == FALSE) {
+      redirect('management/user');
+    }
 
     // continue the process
-    $password = $this->input->post('password');
     $email = $this->input->post('email');
-
-    $payload = [
-      'email' => $this->input->post('email'),
-      'name' => $this->input->post('name'),
-      'username' => $this->input->post('username'),
-      'password' => password_hash($password, PASSWORD_BCRYPT)
-    ];
+    $payload = $this->createPayload($this->input->post());
 
     $result = $this->user_model->update($payload, ['email' => $email]);
     // early check

@@ -46,9 +46,9 @@
           </td>
           <td>
             <div class="d-flex flex-row gap-2">
-              <a href="<?= base_url('management/pelanggan/show/' . $item->id) ?>" class="btn btn-primary btn-sm">Lihat</a>
-              <a href="<?= base_url('management/pelanggan/edit/' . $item->id) ?>" class="btn btn-warning btn-sm">Ubah</a>
-              <?= form_open('management/pelanggan/delete/' . $item->id, 'id="del-tarif-' . $item->id . '"') ?>
+              <a href="<?= base_url('management/tagihan/show/' . $item->id) ?>" class="btn btn-primary btn-sm">Lihat</a>
+              <a href="<?= base_url('management/tagihan/edit/' . $item->id) ?>" class="btn btn-warning btn-sm">Ubah</a>
+              <?= form_open('management/tagihan/delete/' . $item->id, 'id="del-tarif-' . $item->id . '"') ?>
               <button class="btn btn-danger btn-sm" type="button"
                 onclick="deleteTarif(this.form, <?= $item->id ?>)">Hapus</button>
               </form>

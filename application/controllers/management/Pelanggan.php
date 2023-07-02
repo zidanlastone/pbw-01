@@ -1,43 +1,28 @@
 <?php
 
-class Pelanggan extends CI_Controller
+class Pelanggan extends MY_AdminController
 {
   public function __construct()
   {
     parent::__construct();
     $this->load->model('PelangganModel', 'pelanggan_model');
     $this->load->model('TarifListrikModel', 'tl_model');
-    $this->load->helper('debug');
-
     $this->checkSession('id', '/auth');
   }
 
-  private function checkSession($userdata, $target = '/')
+  protected function createPayload($input)
   {
-    if (!$this->session->userdata('id')) {
-      redirect($target);
-    }
-    return $this->session->userdata($userdata);
+    $post = (object) $input; // converting array to object
+    $payload = $this->pelanggan_model->createObject();
+    $payload->pelanggan_id = $post->pelanggan_id;
+    $payload->nama_pelanggan = $post->nama_pelanggan;
+    $payload->tarif_listrik_id = $post->tarif_listrik_id;
+    $payload->alamat = $post->alamat;
+
+    return $payload;
   }
 
-  private function checkNavbar()
-  {
-    $navbar = 'unauthenticated';
-    if ($this->session->userdata('id')) {
-      $navbar = 'authenticated';
-    }
-    return $this->load->view('layout/navbars/' . $navbar, [], true);
-  }
-
-  private function layout($view, $data)
-  {
-    $data['view'] = $view;
-    $data['navbar'] = $this->checkNavbar();
-    $data['content'] = $this->load->view($view, $data, true);
-    return $this->load->view('layout/management', $data);
-  }
-
-  private function validationRules($validation = [])
+  protected function validationRules($validation = [])
   {
     $default = [
       ['field' => 'nama_pelanggan', 'label' => 'Kode Tarif', 'rules' => 'required'],
@@ -69,11 +54,7 @@ class Pelanggan extends CI_Controller
       redirect('management/pelanggan');
     }
 
-    $payload = $this->pelanggan_model->createObject();
-    $payload->pelanggan_id = $this->pelanggan_model->createPelangganId();
-    $payload->nama_pelanggan = $this->input->post('nama_pelanggan');
-    $payload->tarif_listrik_id = $this->input->post('tarif_listrik_id');
-    $payload->alamat = $this->input->post('alamat');
+    $payload = $this->createPayload($this->input->post());
 
     $result = $this->pelanggan_model->save($payload);
 
@@ -81,7 +62,6 @@ class Pelanggan extends CI_Controller
     if (!$result) {
       redirect('management/pelanggan');
     }
-
     redirect('management/pelanggan');
   }
 
@@ -102,17 +82,13 @@ class Pelanggan extends CI_Controller
       redirect('management/pelanggan');
     }
 
-    $payload = $this->pelanggan_model->createObject();
-    $payload->nama_pelanggan = $this->input->post('nama_pelanggan');
-    $payload->tarif_listrik_id = $this->input->post('tarif_listrik_id');
-    $payload->alamat = $this->input->post('alamat');
+    $payload = $this->createPayload($this->input->post());
 
     $result = $this->pelanggan_model->update($payload, ['id' => $id]);
     // early check
     if (!$result) {
       redirect('management/pelanggan');
     }
-
     redirect('management/pelanggan');
   }
 
@@ -126,6 +102,7 @@ class Pelanggan extends CI_Controller
   {
     $data['mode'] = 'show';
     $data['item'] = $this->pelanggan_model->show(['id' => $id])->row();
+    $data['list_tarif_listrik'] = $this->tl_model->list();
     $this->layout('management/pelanggan/form', $data);
   }
 }

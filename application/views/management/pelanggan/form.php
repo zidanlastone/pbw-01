@@ -4,23 +4,23 @@
 
 <div>
   <h3>Membuat Tarif Listrik Baru</h3>
-  <?= form_open($mode == 'edit' && isset($item) ? 'management/pelanggan/update/' . $item->id : 'management/pelanggan/store', 'class=""my-3"') ?>
+  <?= form_open(($mode == 'edit' || $mode == 'show') && isset($item) ? 'management/pelanggan/update/' . $item->id : 'management/pelanggan/store', 'class=""my-3"') ?>
   <div class="form-group mb-3">
     <label for="title">Nama Pelanggan</label>
     <input class="form-control" placeholder="Masukan Nama Pelanggan" type="text" name="nama_pelanggan" min="100"
-      value="<?= $mode == 'edit' && isset($item) ? $item->nama_pelanggan : '' ?>" <?= $mode == 'show' ? 'disabled' : '' ?>>
+      value="<?= ($mode == 'edit' || $mode == 'show') && isset($item) ? $item->nama_pelanggan : '' ?>" <?= $mode == 'show' ? 'disabled' : '' ?>>
     <small><i>Contoh Nama : John Doe</i></small>
   </div>
   <div class="form-group mb-3">
     <label for="title">Alamat Pelanggan</label>
     <textarea class="form-control" placeholder="Masukan Alamat Pelanggan" type="text" name="alamat" min="100"
-      value="<?= $mode == 'edit' && isset($item) ? $item->alamat : '' ?>" <?= $mode == 'show' ? 'disabled' : '' ?>><?= $mode == 'edit' && isset($item) ? $item->alamat : '' ?></textarea>
+      value="<?= ($mode == 'edit' || $mode == 'show') && isset($item) ? $item->alamat : '' ?>" <?= $mode == 'show' ? 'disabled' : '' ?>><?= ($mode == 'edit' || $mode == 'show') && isset($item) ? $item->alamat : '' ?></textarea>
     <small><i>Contoh Alamat: Jl. Raya Cilebut No.3a, RT.01/RW.04, RTO1 RW04, Kec. Tanah Sereal Kota Bogor Jawa
         Barat</i></small>
   </div>
 
   <div class="form-group mb-3">
-    <select name="tarif_listrik_id" class="form-control">
+    <select name="tarif_listrik_id" class="form-control" <?= $mode == 'show' ? 'disabled' : '' ?>>
       <?php foreach ($list_tarif_listrik as $key => $item): ?>
         <option value="<?= $item->id ?>"><?= $item->kd_tarif ?> - <?= $item->beban ?> Watt - Rp.<?= $item->tarif_perkwh ?>/kwh</option>
       <?php endforeach ?>

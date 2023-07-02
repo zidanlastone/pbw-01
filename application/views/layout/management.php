@@ -330,7 +330,7 @@
 
   <div class="container-fluid">
     <div class="row">
-      <div class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary">
+      <div class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary" style="min-height:90vh">
         <div class="offcanvas-lg offcanvas-end bg-body-tertiary" tabindex="-1" id="sidebarMenu"
           aria-labelledby="sidebarMenuLabel">
           <div class="offcanvas-header">
@@ -387,46 +387,39 @@
 
             <h6
               class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
-              <span>Laporan Tersimpan</span>
-              <a class="link-secondary" href="#" aria-label="Add a new report">
+              <span>Umum</span>
+              <!-- <a class="link-secondary" href="#" aria-label="Add a new report">
                 <svg class="bi">
                   <use xlink:href="#plus-circle" />
                 </svg>
-              </a>
+              </a> -->
             </h6>
             <ul class="nav flex-column mb-auto">
               <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="#">
+                <a class="nav-link d-flex align-items-center gap-2" href="<?= base_url('management/user') ?>">
                   <svg class="bi">
-                    <use xlink:href="#file-earmark-text" />
+                    <use xlink:href="#people" />
                   </svg>
-                  Current month
+                  Pengguna
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="#">
+                <a class="nav-link d-flex align-items-center gap-2" href="<?= base_url('management/category') ?>">
                   <svg class="bi">
-                    <use xlink:href="#file-earmark-text" />
+                    <use xlink:href="#people" />
                   </svg>
-                  Last quarter
+                  Kategori
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="#">
+                <a class="nav-link d-flex align-items-center gap-2" href="<?= base_url('management/post') ?>">
                   <svg class="bi">
-                    <use xlink:href="#file-earmark-text" />
+                    <use xlink:href="#people" />
                   </svg>
-                  Social engagement
+                  Postingan
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="#">
-                  <svg class="bi">
-                    <use xlink:href="#file-earmark-text" />
-                  </svg>
-                  Year-end sale
-                </a>
-              </li>
+
             </ul>
 
             <hr class="my-3">
@@ -454,7 +447,7 @@
       </div>
 
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <?= $content  ?>
+        <?= $content ?>
       </main>
     </div>
   </div>
@@ -468,75 +461,78 @@
     crossorigin="anonymous"></script>
 
   <script type="text/javascript">
-
     (() => {
       'use strict'
       // Graphs
       const ctx = document.getElementById('myChart')
-      // eslint-disable-next-line no-unused-vars
-      const myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: [
-            'Sunday',
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday',
-            'Saturday'
-          ],
-          datasets: [{
-            data: [
-              15339,
-              21345,
-              18483,
-              24003,
-              23489,
-              24092,
-              12034
+      if (ctx != null) {
+        // eslint-disable-next-line no-unused-vars
+        const myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: [
+              'Sunday',
+              'Monday',
+              'Tuesday',
+              'Wednesday',
+              'Thursday',
+              'Friday',
+              'Saturday'
             ],
-            lineTension: 0,
-            backgroundColor: 'transparent',
-            borderColor: '#007bff',
-            borderWidth: 4,
-            pointBackgroundColor: '#007bff'
-          }]
-        },
-        options: {
-          plugins: {
-            legend: {
-              display: false
-            },
-            tooltip: {
-              boxPadding: 3
+            datasets: [{
+              data: [
+                15339,
+                21345,
+                18483,
+                24003,
+                23489,
+                24092,
+                12034
+              ],
+              lineTension: 0,
+              backgroundColor: 'transparent',
+              borderColor: '#007bff',
+              borderWidth: 4,
+              pointBackgroundColor: '#007bff'
+            }]
+          },
+          options: {
+            plugins: {
+              legend: {
+                display: false
+              },
+              tooltip: {
+                boxPadding: 3
+              }
             }
           }
-        }
-      })
+        })
+      }
     })()
-
-    // dark mode support
-    let darkMode = true
-    document.getElementById('view-mode').addEventListener('click', function () {
-      document.documentElement.setAttribute('data-bs-theme', darkMode ? 'dark' : 'light');
-      document.getElementById('view-mode').innerHTML = darkMode ? '☀️' : '🌙'
-      darkMode = !darkMode;
-    })
-
 
     // for reducing document load. copy the dom to menu
     function loadOffcanvasNav() {
-      let copy = document.getElementById('main-side-nav').innerHTML
-      document.getElementById('offcanvas-nav').innerHTML = copy;
+      var turndownService = new TurndownService({ option: 'value' })
 
-      let cards = document.getElementsByClassName('card-cursor')
-      Array.from(cards).forEach(element => {
-        element.style.cursor = element.dataset.linktarget
-        element.addEventListener('click', function () {
-          window.location = element.dataset.linktarget
+      <?php if ($view == 'management/post/form'): ?>
+        let postQuill = new Quill('#content-editor', { theme: 'snow' });
+        const postQuillMarkdown = new QuillMarkdown(postQuill, {})
+        let postInput = document.getElementById('content-input');
+        postQuill.on('text-change', function () {
+          postInput.value = turndownService.turndown(postQuill.container.firstChild.innerHTML);
         })
-      });
+      <?php endif ?>
+
+      <?php if ($view == 'management/post/show'): ?>
+        // editor
+        let commentQuill = new Quill('#comment-editor', { theme: 'snow' });
+        const commentQuillMarkdown = new QuillMarkdown(commentQuill, {})
+        let commentInput = document.getElementById('comment-input');
+
+        commentQuill.on('text-change', function () {
+          commentInput.value = turndownService.turndown(commentQuill.container.firstChild.innerHTML);
+        })
+      <?php endif ?>
     }
 
     if (document.readyState == "loading")
