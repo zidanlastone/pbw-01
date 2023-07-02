@@ -3,7 +3,7 @@
 </div>
 
 <div>
-  <h3>Membuat Tarif Listrik Baru</h3>
+  <h3 class="h4">Membuat Tarif Listrik Baru</h3>
   <?= form_open(($mode == 'edit' || $mode == 'show') && isset($item) ? 'management/tariflistrik/update/' . $item->id : 'management/tariflistrik/store', 'class=""my-3"') ?>
   <div class="form-group mb-3">
     <label for="title">Kode Tarif Listrik</label>

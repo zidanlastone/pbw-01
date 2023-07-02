@@ -1,5 +1,9 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Data user</h1>
+</div>
+
 <div>
-  <h3>User Creation</h3>
+  <h3 class="h4">Membuat Data User Baru</h3>
   <?= form_open(($mode == 'edit' || $mode == 'show') && isset($item) ? 'management/user/update/' . $item->id : 'management/user/store', 'class=""my-3"') ?>
   <div class="form-group mb-3">
     <input class="form-control" placeholder="Masukan Nama" type="text" name="name"

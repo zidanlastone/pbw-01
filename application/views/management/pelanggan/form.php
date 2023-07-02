@@ -1,9 +1,9 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-  <h1 class="h2">Tarif Listrik</h1>
+  <h1 class="h2">Data Pelanggan</h1>
 </div>
 
-<div>
-  <h3>Membuat Tarif Listrik Baru</h3>
+<div class="col-md-8 col-sm-12 mb-5">
+  <h3>Membuat Data Pelanggan Baru</h3>
   <?= form_open(($mode == 'edit' || $mode == 'show') && isset($item) ? 'management/pelanggan/update/' . $item->id : 'management/pelanggan/store', 'class=""my-3"') ?>
   <div class="form-group mb-3">
     <label for="title">Nama Pelanggan</label>

@@ -1,4 +1,7 @@
-<section class="col-md-10 col-sm-12" style="max-height: 90vh; overflow-y: scroll; scrollbar-width: none;">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Data Kategori</h1>
+</div>
+<section class="col-md-10 col-sm-12">
   <h2>Category</h2>
   <hr>
 
