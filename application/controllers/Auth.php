@@ -47,6 +47,8 @@ class Auth extends CI_Controller
     ];
 
     $this->session->set_userdata($payload);
+
+    // TODO FIX REDIRECT BY ROLE
     redirect('/management');
   }
 
@@ -95,7 +97,7 @@ class Auth extends CI_Controller
 
     $this->session->set_userdata($session);
 
-    redirect('user/profile');
+    redirect('/');
   }
 
 }

@@ -33,4 +33,11 @@ class PresensiModel extends MY_Model
   {
     return new PresensiObject();
   }
+
+  public function listPresensiPegawai()
+  {
+    $this->db->join('tb_pegawai', 'tb_pegawai.id = tb_presensi.pegawai_id');
+    $this->db->select('tb_presensi.*, tb_pegawai.nama');
+    return $this->db->get($this->table)->result();
+  }
 }
