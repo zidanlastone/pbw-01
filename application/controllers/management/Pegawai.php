@@ -54,14 +54,14 @@ class Pegawai extends MY_AdminController
 
   public function index()
   {
-    $data['list'] = $this->pegawai_model->list();
+    $data['list'] = $this->pegawai_model->listItems();
     $this->layout('management/pegawai/index', $data);
   }
 
   public function create()
   {
     $data['mode'] = 'create';
-    $data['list_user'] = $this->user_model->list();
+    $data['list_user'] = $this->user_model->listItems();
     $this->layout('management/pegawai/form', $data);
   }
 
@@ -92,7 +92,7 @@ class Pegawai extends MY_AdminController
   {
     $data['mode'] = 'edit';
     $data['item'] = $this->pegawai_model->show(['id' => $id])->row();
-    $data['list_user'] = $this->user_model->list();
+    $data['list_user'] = $this->user_model->listItems();
     $this->layout('management/pegawai/form', $data);
   }
 

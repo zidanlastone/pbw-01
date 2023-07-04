@@ -45,7 +45,7 @@ class Presensi extends MY_AdminController
   public function create()
   {
     $data['mode'] = 'create';
-    $data['list_pegawai'] = $this->pegawai_model->list();
+    $data['list_pegawai'] = $this->pegawai_model->listItems();
     $this->layout($this->viewFolder . '/form', $data);
   }
 

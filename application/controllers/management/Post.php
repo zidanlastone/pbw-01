@@ -46,7 +46,7 @@ class Post extends MY_AdminController
   public function create()
   {
     $data['mode'] = 'create';
-    $data['list_category'] = $this->category_model->list();
+    $data['list_category'] = $this->category_model->listItems();
     $this->layout('management/post/form', $data);
   }
 
@@ -76,7 +76,7 @@ class Post extends MY_AdminController
   {
     $data['mode'] = 'edit';
     $data['item'] = $this->post_model->show(['id' => $id])->row();
-    $data['list_category'] = $this->category_model->list();
+    $data['list_category'] = $this->category_model->listItems();
     $this->layout('management/post/form', $data);
   }
 
@@ -113,7 +113,7 @@ class Post extends MY_AdminController
   {
     $data['mode'] = 'show';
     $data['item'] = $this->post_model->show(['id' => $id])->row();
-    $data['list_category'] = $this->category_model->list();
+    $data['list_category'] = $this->category_model->listItems();
     $this->layout('management/post/form', $data);
   }
 }

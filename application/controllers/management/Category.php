@@ -31,7 +31,7 @@ class Category extends MY_AdminController
 
   public function index()
   {
-    $data['list'] = $this->category_model->list();
+    $data['list'] = $this->category_model->listItems();
     $this->layout('management/category/index', $data);
   }
 

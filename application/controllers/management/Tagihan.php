@@ -41,7 +41,7 @@ class Tagihan extends MY_AdminController
   public function create()
   {
     $data['mode'] = 'create';
-    $data['list_pelanggan'] = $this->pelanggan_model->list();
+    $data['list_pelanggan'] = $this->pelanggan_model->listItems();
     $this->layout('management/tagihan/form', $data);
   }
 
@@ -72,7 +72,7 @@ class Tagihan extends MY_AdminController
   {
     $data['mode'] = 'edit';
     $data['item'] = $this->tagihan_model->show(['id' => $id])->row();
-    $data['list_pelanggan'] = $this->pelanggan_model->list();
+    $data['list_pelanggan'] = $this->pelanggan_model->listItems();
     $this->layout('management/tagihan/form', $data);
   }
 
@@ -108,7 +108,7 @@ class Tagihan extends MY_AdminController
   {
     $data['mode'] = 'show';
     $data['item'] = $this->tagihan_model->show(['id' => $id])->row();
-    $data['list_pelanggan'] = $this->pelanggan_model->list();
+    $data['list_pelanggan'] = $this->pelanggan_model->listItems();
     $this->layout('management/tagihan/form', $data);
   }
 }

@@ -37,7 +37,7 @@ abstract class MY_Model extends CI_Model
     return $this->db->delete($this->table, $where);
   }
 
-  public function list()
+  public function listItems()
   {
     $this->checkTable();
     return $this->db->get($this->table)->result();

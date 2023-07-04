@@ -46,7 +46,7 @@ class Gaji extends MY_AdminController
   public function create()
   {
     $data['mode'] = 'create';
-    $data['list_pegawai'] = $this->pegawai_model->list();
+    $data['list_pegawai'] = $this->pegawai_model->listItems();
     $this->layout($this->viewFolder . '/form', $data);
   }
 
@@ -77,7 +77,7 @@ class Gaji extends MY_AdminController
   {
     $data['mode'] = 'edit';
     $data['item'] = $this->gaji_model->show(['id' => $id])->row();
-    $data['list_pegawai'] = $this->pegawai_model->list();
+    $data['list_pegawai'] = $this->pegawai_model->listItems();
     $this->layout($this->viewFolder . '/form', $data);
   }
 

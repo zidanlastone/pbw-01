@@ -41,7 +41,7 @@ class Pelanggan extends MY_AdminController
   public function create()
   {
     $data['mode'] = 'create';
-    $data['list_tarif_listrik'] = $this->tl_model->list();
+    $data['list_tarif_listrik'] = $this->tl_model->listItems();
     $this->layout('management/pelanggan/form', $data);
   }
 
@@ -71,7 +71,7 @@ class Pelanggan extends MY_AdminController
   {
     $data['mode'] = 'edit';
     $data['item'] = $this->pelanggan_model->show(['id' => $id])->row();
-    $data['list_tarif_listrik'] = $this->tl_model->list();
+    $data['list_tarif_listrik'] = $this->tl_model->listItems();
     $this->layout('management/pelanggan/form', $data);
   }
 
@@ -106,7 +106,7 @@ class Pelanggan extends MY_AdminController
   {
     $data['mode'] = 'show';
     $data['item'] = $this->pelanggan_model->show(['id' => $id])->row();
-    $data['list_tarif_listrik'] = $this->tl_model->list();
+    $data['list_tarif_listrik'] = $this->tl_model->listItems();
     $this->layout('management/pelanggan/form', $data);
   }
 }

@@ -44,7 +44,7 @@ class Post extends CI_Controller implements PostInterface
 	{
 		$data['view'] = $view;
 		$data['navbar'] = $this->checkNavbar();
-		$data['categories'] = $this->category_model->list();
+		$data['categories'] = $this->category_model->listItems();
 		$data['content'] = $this->load->view($view, $data, true);
 		return $this->load->view('layout/main', $data);
 	}

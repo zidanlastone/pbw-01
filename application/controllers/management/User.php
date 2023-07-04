@@ -33,7 +33,7 @@ class User extends MY_AdminController
 
   public function index()
   {
-    $data['list'] = $this->user_model->list();
+    $data['list'] = $this->user_model->listItems();
     $this->layout('management/user/index', $data);
   }
 
